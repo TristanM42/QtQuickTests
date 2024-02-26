@@ -7,7 +7,7 @@ using namespace std;
 MyClass::MyClass(QObject *parent)
     : QObject{parent}
 {
-    // QObject::connect(this, &MyClass::myNotifySignal, this, &MyClass::myNotifySlot);
+    QObject::connect(this, &MyClass::myNotifySignal, this, &MyClass::myNotifySlot);
 }
 
 void MyClass::myFunction(QString myMessage)
@@ -23,11 +23,11 @@ void MyClass::mySlot(QString myMessage)
     emit mySignall(myMessage);
 }
 
-// void MyClass::myNotifySlot(QString myMessage)
-// {
-//     myMessage.append(" - data appended in myNotifySlot");
-//     emit mySignall(myMessage);
-// }
+void MyClass::myNotifySlot(QString myMessage)
+{
+    myMessage.append(" - data appended in myNotifySlot");
+    emit mySignall(myMessage);
+}
 
 int MyClass::counter() const
 {
