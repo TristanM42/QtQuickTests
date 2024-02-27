@@ -8,7 +8,9 @@ Window {
     visible: true
     title: qsTr("QML and C++ integration")
 
-    MyClass {
+    //required property MyClass myClass;
+
+    MyClass { // error : Singleton is not creatable (je voulais juste le référencer voire ajouter onSignal, etc)
         id: myClass
 
         counter: 0
@@ -35,8 +37,8 @@ Window {
                 height: 25
                 text: "Call slot"
                 onClicked: {
-                    myClass.mySlot("Called my slot")
-                    myClass.counter = myClass.counter + 1
+                    MyClass.mySlot("Called my slot")
+                    MyClass.counter = myClass.counter + 1
                 }
             }
 
@@ -44,7 +46,7 @@ Window {
                 width: 100
                 height: 25
                 text: "Call function"
-                onClicked: { myClass.myFunction("Called my function") }
+                onClicked: { MyClass.myFunction("Called my function") }
             }
 
             Button {
@@ -52,14 +54,14 @@ Window {
                 height: 25
                 text: "Change property"
                 onClicked: {
-                    myClass.myMessage += "Changing propertyy"
+                    MyClass.myMessage += "Changing propertyy"
                     anotherClass.myMessage += "Changing propertyyy"
                 }
             }
         }
 
         Text {
-            text: "Slot called: " + myClass.counter + " times"
+            text: "Slot called: " + MyClass.counter + " times"
         }
 
         ScrollView {

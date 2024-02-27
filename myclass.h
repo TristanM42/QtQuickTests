@@ -8,6 +8,8 @@ class MyClass : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
+    //QML_UNCREATABLE("Singleton created in C++")
+    QML_SINGLETON
     //Q_PROPERTY(QString myMessage MEMBER m_myMessage NOTIFY myNotifySignal);
     // Q_PROPERTY(QString myMessage MEMBER m_myMessage NOTIFY mySignal);
     Q_PROPERTY(QString myMessage READ myMessage WRITE setMyMessage NOTIFY mySignall);
