@@ -1,4 +1,5 @@
 #include "myclass.h"
+//#include "anotherclass.h"
 
 #include <windows.h>
 
@@ -7,7 +8,7 @@ using namespace std;
 MyClass::MyClass(QObject *parent)
     : QObject{parent}
 {
-    QObject::connect(this, &MyClass::myNotifySignal, this, &MyClass::myNotifySlot);
+    QObject::connect(this, &MyClass::myCustomSignal1Temp, this, &MyClass::myCustomSignal1Slot);
 }
 
 void MyClass::myFunction(QString myMessage)
@@ -51,6 +52,12 @@ void MyClass::setMyMessage(QString newValue) {
     newValue.append(" - data appended in setMyMessage");
     m_myMessage = newValue;
     emit mySignall(newValue);
-    emit myCustomSignal1(newValue);
+    emit myCustomSignal1Temp(newValue);
     emit myCustomSignal2(newValue);
+}
+
+void MyClass::myCustomSignal1Slot(QString myMessage)
+{
+    myMessage.append(" - data appended in myCustomSignal1Function");
+    emit myCustomSignal1(myMessage);
 }

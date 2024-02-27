@@ -18,6 +18,11 @@ Window {
         onMyCustomSignal2: (data) => { myTextArea.append(data + " custom signal 2") }
     }
 
+    AnotherClass {
+        id: anotherClass
+        onMyCustomSignal1: (data) => { myTextArea.append(data + " custom signal 1") }
+    }
+
     Column {
         anchors.centerIn: parent
         spacing: 15
@@ -46,7 +51,10 @@ Window {
                 width: 100
                 height: 25
                 text: "Change property"
-                onClicked: { myClass.myMessage += "Changing propertyy" }
+                onClicked: {
+                    myClass.myMessage += "Changing propertyy"
+                    anotherClass.myMessage += "Changing propertyyy"
+                }
             }
         }
 

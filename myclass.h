@@ -8,9 +8,9 @@ class MyClass : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(QString myMessage MEMBER m_myMessage NOTIFY myNotifySignal);
+    //Q_PROPERTY(QString myMessage MEMBER m_myMessage NOTIFY myNotifySignal);
     // Q_PROPERTY(QString myMessage MEMBER m_myMessage NOTIFY mySignal);
-    //Q_PROPERTY(QString myMessage READ myMessage WRITE setMyMessage NOTIFY mySignall);
+    Q_PROPERTY(QString myMessage READ myMessage WRITE setMyMessage NOTIFY mySignall);
     Q_PROPERTY(int counter READ counter WRITE setCounter NOTIFY counterChanged)
 
 public:
@@ -24,6 +24,7 @@ public:
 public slots:
     void mySlot(QString myMessage);
     void myNotifySlot(QString myMessage);
+    void myCustomSignal1Slot(QString myMessage);
 
 signals:
     void mySignall(QString myMessage);
@@ -31,6 +32,7 @@ signals:
     void myNotifySignal(QString myMessage);
     void counterChanged();
     void myCustomSignal1(QString newValue);
+    void myCustomSignal1Temp(QString newValue);
     void myCustomSignal2(QString newValue);
 
 private:
