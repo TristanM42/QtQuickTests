@@ -13,8 +13,10 @@ public:
     explicit AnotherClass(QObject *parent = nullptr);
     QString myMessage() const;
     void setMyMessage(QString newValue);
+    int intDebug;
 
 public slots:
+    void mySlot(QString myMessage);
 
 signals:
     void myCustomSignal1(QString newValue);

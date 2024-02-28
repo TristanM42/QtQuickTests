@@ -9,17 +9,6 @@ MyClass::MyClass(QObject *parent)
     : QObject{parent}
 {
     QObject::connect(this, &MyClass::myCustomSignal1Temp, this, &MyClass::myCustomSignal1Slot);
-    intDebug = 12345;
-}
-
-MyClass* MyClass::instance()
-{
-    if (MyClass::m_instance == nullptr)
-    {
-        MyClass::m_instance = new MyClass;
-        m_instance->intDebug = 1234;
-    }
-    return MyClass::m_instance;
 }
 
 void MyClass::myFunction(QString myMessage)

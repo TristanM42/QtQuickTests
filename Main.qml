@@ -1,33 +1,29 @@
 import QtQuick
 import QtQuick.Controls.Basic
 import QtQuickTests 1.0
-import com.example 1.0
 
 Window {
+    id:rootItem
     width: 640
     height: 480
     visible: true
     title: qsTr("QML and C++ integration")
 
-    //required property MyClass _myClass;
+    property MyClass _myClass
+    property AnotherClass _anotherClass
 
     Connections {
-        target: MyClass
+        target: _myClass
         onMySignall: (data) => { myTextArea.append(data) }
         onCounterChanged: console.log("Counter property changed")
         onMyCustomSignal1: (data) => { myTextArea.append(data + " custom signal 1") }
         onMyCustomSignal2: (data) => { myTextArea.append(data + " custom signal 2") }
     }
 
-    AnotherClass {
-        id: anotherClass
+    Connections {
+        target: _anotherClass
         onMyCustomSignal1: (data) => { myTextArea.append(data + " custom signal 1") }
     }
-
-    MyClass {
-        id: myClassId
-    }
-
 
     Column {
         anchors.centerIn: parent
@@ -41,8 +37,9 @@ Window {
                 height: 25
                 text: "Call slot"
                 onClicked: {
-                    MyClass.mySlot("Called my slot")
-                    MyClass.counter = MyClass.counter + 1
+                    _myClass.mySlot("Called my slot")
+                    _myClass.counter = _myClass.counter + 1
+                    _anotherClass.mySlot("Called my slot")
                 }
             }
 
@@ -50,7 +47,7 @@ Window {
                 width: 100
                 height: 25
                 text: "Call function"
-                onClicked: { MyClass.myFunction("Called my function") }
+                onClicked: { _myClass.myFunction("Called my function") }
             }
 
             Button {
@@ -58,14 +55,14 @@ Window {
                 height: 25
                 text: "Change property"
                 onClicked: {
-                    MyClass.myMessage += "Changing propertyy"
-                    anotherClass.myMessage += "Changing propertyyy"
+                    _myClass.myMessage += "Changing propertyy"
+                    _anotherClass.myMessage += "Changing propertyyy"
                 }
             }
         }
 
         Text {
-            text: "Slot called: " + MyClass.counter + " times"
+            text: "Slot called: " + _myClass.counter + " times"
         }
 
         ScrollView {

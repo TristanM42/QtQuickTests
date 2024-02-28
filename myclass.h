@@ -8,14 +8,14 @@ class MyClass : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
+
     //QML_UNCREATABLE("Singleton created in C++")
-    QML_SINGLETON
+    //QML_SINGLETON
+
     //Q_PROPERTY(QString myMessage MEMBER m_myMessage NOTIFY myNotifySignal);
     // Q_PROPERTY(QString myMessage MEMBER m_myMessage NOTIFY mySignal);
     Q_PROPERTY(QString myMessage READ myMessage WRITE setMyMessage NOTIFY mySignall);
     Q_PROPERTY(int counter READ counter WRITE setCounter NOTIFY counterChanged)
-
-    static int typeId;
 
 public:
     explicit MyClass(QObject *parent = nullptr);
@@ -24,7 +24,6 @@ public:
     void setCounter(int newCounter);
     QString myMessage() const;
     void setMyMessage(QString newValue);
-    static MyClass* instance();
     int intDebug;
 
 public slots:
@@ -42,7 +41,6 @@ signals:
     void myCustomSignal2(QString newValue);
 
 private:
-    static inline MyClass* m_instance = nullptr;
     QString m_myMessage;
     int m_counter = 0;
 };
