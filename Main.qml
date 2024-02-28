@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls.Basic
 import QtQuickTests 1.0
+import com.example 1.0
 
 Window {
     width: 640
@@ -8,12 +9,10 @@ Window {
     visible: true
     title: qsTr("QML and C++ integration")
 
-    //required property MyClass myClass;
+    //required property MyClass _myClass;
 
-    MyClass { // error : Singleton is not creatable (je voulais juste le référencer voire ajouter onSignal, etc)
-        id: myClass
-
-        counter: 0
+    Connections {
+        target: MyClass
         onMySignall: (data) => { myTextArea.append(data) }
         onCounterChanged: console.log("Counter property changed")
         onMyCustomSignal1: (data) => { myTextArea.append(data + " custom signal 1") }
@@ -24,6 +23,11 @@ Window {
         id: anotherClass
         onMyCustomSignal1: (data) => { myTextArea.append(data + " custom signal 1") }
     }
+
+    MyClass {
+        id: myClassId
+    }
+
 
     Column {
         anchors.centerIn: parent
@@ -38,7 +42,7 @@ Window {
                 text: "Call slot"
                 onClicked: {
                     MyClass.mySlot("Called my slot")
-                    MyClass.counter = myClass.counter + 1
+                    MyClass.counter = MyClass.counter + 1
                 }
             }
 

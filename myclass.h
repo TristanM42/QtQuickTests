@@ -15,6 +15,8 @@ class MyClass : public QObject
     Q_PROPERTY(QString myMessage READ myMessage WRITE setMyMessage NOTIFY mySignall);
     Q_PROPERTY(int counter READ counter WRITE setCounter NOTIFY counterChanged)
 
+    static int typeId;
+
 public:
     explicit MyClass(QObject *parent = nullptr);
     Q_INVOKABLE void myFunction(QString);
@@ -22,6 +24,8 @@ public:
     void setCounter(int newCounter);
     QString myMessage() const;
     void setMyMessage(QString newValue);
+    static MyClass* instance();
+    int intDebug;
 
 public slots:
     void mySlot(QString myMessage);
@@ -38,8 +42,9 @@ signals:
     void myCustomSignal2(QString newValue);
 
 private:
+    static inline MyClass* m_instance = nullptr;
     QString m_myMessage;
-    int m_counter;
+    int m_counter = 0;
 };
 
 #endif // MYCLASS_H

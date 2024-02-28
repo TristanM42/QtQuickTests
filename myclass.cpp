@@ -9,6 +9,17 @@ MyClass::MyClass(QObject *parent)
     : QObject{parent}
 {
     QObject::connect(this, &MyClass::myCustomSignal1Temp, this, &MyClass::myCustomSignal1Slot);
+    intDebug = 12345;
+}
+
+MyClass* MyClass::instance()
+{
+    if (MyClass::m_instance == nullptr)
+    {
+        MyClass::m_instance = new MyClass;
+        m_instance->intDebug = 1234;
+    }
+    return MyClass::m_instance;
 }
 
 void MyClass::myFunction(QString myMessage)
@@ -20,7 +31,10 @@ void MyClass::myFunction(QString myMessage)
 void MyClass::mySlot(QString myMessage)
 {
     myMessage.append(" - data appended in myySlot");
+    myMessage.append(" ; DEBUG intDebug = ");
+    myMessage.append(QString::number(this->intDebug));
     Sleep(1000);
+    qDebug() << myMessage;
     emit mySignall(myMessage);
 }
 
