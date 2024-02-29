@@ -12,6 +12,9 @@ ApplicationWindow {
         currentIndex: view.currentIndex
     }
     footer: RowLayout {
+        CustomButton {
+            text: "Custom button"
+        }
         Button {
             Layout.fillWidth: true
             Layout.minimumWidth: 150
