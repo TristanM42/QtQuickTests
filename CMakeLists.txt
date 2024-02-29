@@ -14,16 +14,14 @@ qt_add_executable(appQtQuickTests
 qt_add_qml_module(appQtQuickTests
     URI QtQuickTests
     VERSION 1.0
-    QML_FILES main.qml
-    ButtonsPage.qml
-    IndicatorsPage.qml
-    InputsPage.qml
-)
-
-qt_add_resources(appQtQuickTests "app_images"
-    PREFIX "/"
-    FILES
-        log.png
+    QML_FILES
+        main.qml
+        ContainerPage.qml
+        TabBarPage.qml
+        ScrollViewPage.qml
+        StackViewPage.qml
+        PaneToolBarPage.qml
+        SplitViewPage.qml
 )
 
 set_target_properties(appQtQuickTests PROPERTIES
