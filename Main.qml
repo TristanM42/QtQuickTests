@@ -1,135 +1,66 @@
 import QtQuick
-import QtQuick.Controls.Basic
 import QtQuick.Layouts
+import QtQuick.Controls.Basic
 
 ApplicationWindow {
-    id: root
-
-    width: 900
-    height: 600
+    width: 640
+    height: 480
     visible: true
-    title: qsTr("Qt Quick Controls")
+    title: qsTr("QtQuick Controls - QtQuickTests")
+    header: PageIndicator {
+        count: view.count
+        currentIndex: view.currentIndex
+    }
+    footer: RowLayout {
+        Button {
+            Layout.fillWidth: true
+            Layout.minimumWidth: 150
+            Layout.preferredHeight: 50
+            text: qsTr("Home")
+            onClicked: view.setCurrentIndex(0)
+            enabled: view.currentIndex !== 0
+        }
 
-    //ApplicationWindow header definition ----------------------------------------------------------
-    header: Rectangle {
-        width: parent.width
-        height: 60
-        color: "lightblue"
+        Button {
+            Layout.fillWidth: true
+            Layout.minimumWidth: 150
+            Layout.preferredHeight: 50
+            text: qsTr("Previous")
+            onClicked: view.decrementCurrentIndex()
+            enabled: view.currentIndex > 0
+        }
 
-        Column {
-            anchors.fill: parent
-
-            Text { text: qsTr("ApplicationWindow header: "); font.italic: true }
-
-            ToolBar {
-                RowLayout {
-                    width: parent.width
-
-                    ToolButton {
-                        text: qsTr("Tool Button: Log to Console")
-                        onClicked: { console.log("Tool button clicked") }
-                    }
-
-                    ToolSeparator {}
-
-                    ToolButton {
-                        text: qsTr("Disabled Tool Button")
-                        enabled: false
-                    }
-                }
-            }
+        Button {
+            Layout.fillWidth: true
+            Layout.minimumWidth: 150
+            Layout.preferredHeight: 50
+            text: qsTr("Next")
+            onClicked: view.incrementCurrentIndex()
+            enabled: view.currentIndex < view.count - 1
+        }
+    }
+    menuBar: MenuBar { Menu {
+            title: "Menu"
+            Action { text: "Action" }
         }
     }
 
-    //ApplicationWindow footer definition ----------------------------------------------------------
-    footer: Rectangle {
-        width: parent.width
-        height: 50
-        color: "lightblue"
-
-        Column {
-            anchors.fill: parent
-
-            Text { text: qsTr("ApplicationWindow footer: "); font.italic: true }
-
-            TabBar {
-                id: bar
-
-                width: parent.width
-                position: TabBar.Footer
-
-                TabButton { text: qsTr("Buttons") }
-
-                TabButton { text: qsTr("Indicators") }
-
-                TabButton { text: qsTr("Inputs") }
-            }
-
-            PageIndicator {
-                currentIndex: bar.currentIndex
-                count: bar.count
-            }
-        }
-    }
-
-    //ApplicationWindow menu bar definition --------------------------------------------------------
-    menuBar: MenuBar {
-        Menu {
-            title: qsTr("&Navigate")
-
-            Action { text: qsTr("&1 Buttons"); onTriggered: swipeView.setCurrentIndex(0)}
-
-            Action { text: qsTr("&2 Indicators"); onTriggered: swipeView.setCurrentIndex(1)}
-
-            Action { text: qsTr("&3 Inputs"); onTriggered: swipeView.setCurrentIndex(2)}
-
-            MenuSeparator { }
-
-            Action { text: qsTr("&Quit"); onTriggered: root.close()}
-        }
-
-        Menu {
-            title: qsTr("&Help")
-
-            MenuItem {text: openDialogAction.text; action: openDialogAction}
-        }
-
-        Action {
-            id: openDialogAction
-
-            text: qsTr("&About")
-            icon.name: "help-about"
-            shortcut: StandardKey.HelpContents
-            onTriggered: dialog.open()
-        }
-
-        Dialog {
-            id: dialog
-
-            title: qsTr("Help")
-            standardButtons: Dialog.Ok
-            onAccepted: console.log("Ok clicked")
-            onRejected: console.log("Cancelled")
-            implicitWidth: 400
-            contentItem: Text {text: qsTr("Application to present the main features of Qt Quick Controls")}
-        }
-    }
-
-    //ApplicationWindow main content definition ----------------------------------------------------
     SwipeView {
-        id: swipeView
+        id: view
 
         anchors.fill: parent
-        currentIndex: bar.currentIndex
-        onCurrentIndexChanged: bar.setCurrentIndex(currentIndex)
+        onCurrentIndexChanged: console.log(itemAt(currentIndex))
 
-        //Tab about Buttons Controls ---------------------------------------------------------------
-        ButtonsPage {}
+        ContainerPage {}
 
-        //Tab about Indicators Controls ------------------------------------------------------------
-        IndicatorsPage {}
+        TabBarPage {}
 
-        //Tab about Input Controls -----------------------------------------------------------------
-        InputsPage {}
+        ScrollViewPage {}
+
+        StackViewPage {}
+
+        SplitViewPage {}
+
+        PaneToolBarPage {}
     }
 }
