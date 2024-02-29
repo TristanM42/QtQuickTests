@@ -1,99 +1,135 @@
 import QtQuick
 import QtQuick.Controls.Basic
-import QtQuickTests 1.0
+import QtQuick.Layouts
 
-Window {
-    id:rootItem
-    width: 640
-    height: 480
+ApplicationWindow {
+    id: root
+
+    width: 900
+    height: 600
     visible: true
-    title: qsTr("QML and C++ integration")
+    title: qsTr("Qt Quick Controls")
 
-    property MyClass _myClass
-    property AnotherClass _anotherClass
+    //ApplicationWindow header definition ----------------------------------------------------------
+    header: Rectangle {
+        width: parent.width
+        height: 60
+        color: "lightblue"
 
-    Connections {
-        target: _myClass
-        onMySignall: (data) => { myTextArea.append(data) }
-        onCounterChanged: console.log("Counter property changed")
-        onMyCustomSignal1: (data) => { myTextArea.append(data + " custom signal 1") }
-        onMyCustomSignal2: (data) => { myTextArea.append(data + " custom signal 2") }
-    }
+        Column {
+            anchors.fill: parent
 
-    Connections {
-        target: _anotherClass
-        onMyCustomSignal1: (data) => { myTextArea.append(data + " custom signal 1") }
-    }
+            Text { text: qsTr("ApplicationWindow header: "); font.italic: true }
 
-    Column {
-        anchors.centerIn: parent
-        spacing: 15
+            ToolBar {
+                RowLayout {
+                    width: parent.width
 
-        Row {
-            spacing: 15
+                    ToolButton {
+                        text: qsTr("Tool Button: Log to Console")
+                        onClicked: { console.log("Tool button clicked") }
+                    }
 
-            Button {
-                width: 100
-                height: 25
-                text: "Call slot"
-                onClicked: {
-                    _myClass.mySlot("Called my slot")
-                    _myClass.counter = _myClass.counter + 1
-                    _anotherClass.mySlot("Called my slot")
-                }
-            }
+                    ToolSeparator {}
 
-            Button {
-                width: 100
-                height: 25
-                text: "Call function"
-                onClicked: { _myClass.myFunction("Called my function") }
-            }
-
-            Button {
-                width: 100
-                height: 25
-                text: "Change property"
-                onClicked: {
-                    _myClass.myMessage += "Changing propertyy"
-                    _anotherClass.myMessage += "Changing propertyyy"
-                }
-            }
-        }
-
-        Text {
-            text: "Slot called: " + _myClass.counter + " times"
-        }
-
-        ScrollView {
-            id: view
-
-            width: 350
-            height: 200
-            rightPadding: 20
-            bottomPadding: 0
-
-            TextArea {
-                id: myTextArea
-
-                property int entries: 1
-
-                text: "Output will appear below..."
-                onTextChanged: {
-                    entries = entries + 1
-                    if (entries > 13) {
-                        myFrame.height = myFrame.height + 16
+                    ToolButton {
+                        text: qsTr("Disabled Tool Button")
+                        enabled: false
                     }
                 }
             }
+        }
+    }
 
-            Frame {
-                id: myFrame
+    //ApplicationWindow footer definition ----------------------------------------------------------
+    footer: Rectangle {
+        width: parent.width
+        height: 50
+        color: "lightblue"
 
-                width: 330
-                height: 200
-                clip: true
+        Column {
+            anchors.fill: parent
+
+            Text { text: qsTr("ApplicationWindow footer: "); font.italic: true }
+
+            TabBar {
+                id: bar
+
+                width: parent.width
+                position: TabBar.Footer
+
+                TabButton { text: qsTr("Buttons") }
+
+                TabButton { text: qsTr("Indicators") }
+
+                TabButton { text: qsTr("Inputs") }
+            }
+
+            PageIndicator {
+                currentIndex: bar.currentIndex
+                count: bar.count
             }
         }
+    }
+
+    //ApplicationWindow menu bar definition --------------------------------------------------------
+    menuBar: MenuBar {
+        Menu {
+            title: qsTr("&Navigate")
+
+            Action { text: qsTr("&1 Buttons"); onTriggered: swipeView.setCurrentIndex(0)}
+
+            Action { text: qsTr("&2 Indicators"); onTriggered: swipeView.setCurrentIndex(1)}
+
+            Action { text: qsTr("&3 Inputs"); onTriggered: swipeView.setCurrentIndex(2)}
+
+            MenuSeparator { }
+
+            Action { text: qsTr("&Quit"); onTriggered: root.close()}
+        }
+
+        Menu {
+            title: qsTr("&Help")
+
+            MenuItem {text: openDialogAction.text; action: openDialogAction}
+        }
+
+        Action {
+            id: openDialogAction
+
+            text: qsTr("&About")
+            icon.name: "help-about"
+            shortcut: StandardKey.HelpContents
+            onTriggered: dialog.open()
+        }
+
+        Dialog {
+            id: dialog
+
+            title: qsTr("Help")
+            standardButtons: Dialog.Ok
+            onAccepted: console.log("Ok clicked")
+            onRejected: console.log("Cancelled")
+            implicitWidth: 400
+            contentItem: Text {text: qsTr("Application to present the main features of Qt Quick Controls")}
+        }
+    }
+
+    //ApplicationWindow main content definition ----------------------------------------------------
+    SwipeView {
+        id: swipeView
+
+        anchors.fill: parent
+        currentIndex: bar.currentIndex
+        onCurrentIndexChanged: bar.setCurrentIndex(currentIndex)
+
+        //Tab about Buttons Controls ---------------------------------------------------------------
+        ButtonsPage {}
+
+        //Tab about Indicators Controls ------------------------------------------------------------
+        IndicatorsPage {}
+
+        //Tab about Input Controls -----------------------------------------------------------------
+        InputsPage {}
     }
 }
