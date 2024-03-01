@@ -7,6 +7,7 @@ ApplicationWindow {
     height: 480
     visible: true
     title: qsTr("QtQuick Controls - QtQuickTests")
+
     header: PageIndicator {
         count: view.count
         currentIndex: view.currentIndex
@@ -14,6 +15,9 @@ ApplicationWindow {
     footer: RowLayout {
         CustomButton {
             text: "Custom button"
+            Layout.fillWidth: true
+            Layout.minimumWidth: 150
+            Layout.preferredHeight: 50
         }
         Button {
             Layout.fillWidth: true
