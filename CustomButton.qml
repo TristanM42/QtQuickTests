@@ -6,41 +6,90 @@ import QtQuick.Controls.impl
 import QtQuick.Templates as T
 
 T.Button {
-    id: control
+        id: animatedButton
+        text: "Change Color"
+        width: 100
+        height: 50
+        x: 0
+        y: 0
 
-    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
-                            implicitContentWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             implicitContentHeight + topPadding + bottomPadding)
+        property color initialColor: "pink"
+        property color selectedColor: "red"
+        property int animationDelay: 100
 
-    padding: 6
-    horizontalPadding: padding + 2
-    spacing: 6
+        contentItem: IconLabel {
+            text: animatedButton.text
+        }
 
-    icon.width: 24
-    icon.height: 24
-    icon.color: control.checked || control.highlighted ? control.palette.brightText :
-                control.flat && !control.down ? (control.visualFocus ? control.palette.highlight : control.palette.windowText) : control.palette.buttonText
+        Timer {
+           id: holdTimer
+           interval: 100
+           repeat: false
 
-    contentItem: IconLabel {
-        spacing: control.spacing
-        mirrored: control.mirrored
-        display: control.display
+           onTriggered: {
+               colorRect.color = Qt.darker(initialColor, 1.2);
+           }
+        }
 
-        icon: control.icon
-        text: control.text
-        font: control.font
-        color: control.checked || control.highlighted ? control.palette.brightText :
-               control.flat && !control.down ? (control.visualFocus ? control.palette.highlight : control.palette.windowText) : control.palette.buttonText
-    }
+        onPressed: {
+            holdTimer.start()
+        }
 
-    background: Rectangle {
-        implicitWidth: 100
-        implicitHeight: 40
-        visible: !control.flat || control.down || control.checked || control.highlighted
-        color: control.down ? "red" : control.hovered ? "green" : "pink"
-        border.color: "black"
-        border.width: control.visualFocus ? 5 : 0
-        radius: 50
-    }
+        onReleased: {
+            holdTimer.stop()
+            colorRect.color = initialColor // not working when cursor is outside of the button
+        }
+
+        onClicked: {
+            colorAnimation.from = this.initialColor;
+            colorAnimation.to = this.selectedColor;
+            colorAnimationEnd.from = this.selectedColor;
+            colorAnimationEnd.to = this.initialColor;
+            buttonAnimation.target = this;
+            buttonAnimation.from = 0;
+            buttonAnimation.to = 5;
+            buttonAnimationEnd.target = this;
+            buttonAnimationEnd.from = 5;
+            buttonAnimationEnd.to = 0;
+            colorAnimation.start();
+            buttonAnimation.start();
+        }
+
+        background: Rectangle {
+            id: colorRect
+            radius: 20
+            color: animatedButton.initialColor
+
+            // Property animation for color transition
+            PropertyAnimation {
+                id: colorAnimation
+                target: colorRect
+                property: "color"
+                duration: animatedButton.animationDelay // milliseconds
+                onStopped: colorAnimationEnd.start()
+            }
+
+            // Property animation for color transition
+            PropertyAnimation {
+                id: colorAnimationEnd
+                target: colorRect
+                property: "color"
+                duration: animatedButton.animationDelay // milliseconds
+            }
+        }
+
+        // Property animation for button move
+        PropertyAnimation {
+            id: buttonAnimation
+            property: "y"
+            duration: animatedButton.animationDelay // milliseconds
+            onStopped: buttonAnimationEnd.start()
+        }
+
+        // Property animation for button move
+        PropertyAnimation {
+            id: buttonAnimationEnd
+            property: "y"
+            duration: animatedButton.animationDelay // milliseconds
+        }
 }
