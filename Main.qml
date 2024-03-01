@@ -10,27 +10,42 @@ ApplicationWindow {
     title: qsTr("QtQuick Controls - QtQuickTests")
 
     Rectangle {
-            id: root
-            anchors.fill: parent
+        id: root
+        anchors.fill: parent
+        width: 250
+        height: 200
 
-            property color initialColor: "lightblue"
-            property color selectedColor: "salmon"
+        property color initialColor: "lightblue"
+        property color selectedColor: "salmon"
 
-            Button {
-                text: "Change Color"
-                onClicked: {
-                    colorAnimation.from = root.initialColor;
-                    colorAnimation.to = root.selectedColor;
-                    colorAnimationEnd.from = root.selectedColor;
-                    colorAnimationEnd.to = root.initialColor;
-                    colorAnimation.start();
-                }
+        Button {
+            id: animatedButton
+            text: "Change Color"
+            width: 100
+            height: 50
+            x: 150
+            y: 0
+
+            property int animationDelay: 100
+
+            onClicked: {
+                colorAnimation.from = root.initialColor;
+                colorAnimation.to = root.selectedColor;
+                colorAnimationEnd.from = root.selectedColor;
+                colorAnimationEnd.to = root.initialColor;
+                buttonAnimation.target = this;
+                buttonAnimation.from = this.y;
+                buttonAnimation.to = this.y + 5;
+                buttonAnimationEnd.target = this;
+                buttonAnimationEnd.from = this.y + 5;
+                buttonAnimationEnd.to = this.y;
+                colorAnimation.start();
+                buttonAnimation.start();
             }
 
-            Rectangle {
+            background: Rectangle {
                 id: colorRect
-                width: 100
-                height: 100
+                radius: 20
                 color: root.initialColor
 
                 // Property animation for color transition
@@ -38,7 +53,7 @@ ApplicationWindow {
                     id: colorAnimation
                     target: colorRect
                     property: "color"
-                    duration: 500 // 500 milliseconds
+                    duration: animatedButton.animationDelay // milliseconds
                     onStopped: colorAnimationEnd.start()
                 }
 
@@ -47,10 +62,26 @@ ApplicationWindow {
                     id: colorAnimationEnd
                     target: colorRect
                     property: "color"
-                    duration: 500 // 500 milliseconds
+                    duration: animatedButton.animationDelay // milliseconds
                 }
             }
+
+            // Property animation for button move
+            PropertyAnimation {
+                id: buttonAnimation
+                property: "y"
+                duration: animatedButton.animationDelay // milliseconds
+                onStopped: buttonAnimationEnd.start()
+            }
+
+            // Property animation for button move
+            PropertyAnimation {
+                id: buttonAnimationEnd
+                property: "y"
+                duration: animatedButton.animationDelay // milliseconds
+            }
         }
+    }
 
     // header: PageIndicator {
     //     count: view.count
