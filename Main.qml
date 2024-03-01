@@ -10,33 +10,36 @@ ApplicationWindow {
     title: qsTr("QtQuick Controls - QtQuickTests")
 
     Rectangle {
-           id: root
-           anchors.fill: parent
+            id: root
+            anchors.fill: parent
 
-           Button {
-               text: "Change Color"
-               onClicked: {
-                   colorAnimation.from = colorRect.color;
-                   colorAnimation.to = "salmon"; // Set your desired color here
-                   colorAnimation.start();
-               }
-           }
+            property color initialColor: "lightblue"
+            property color selectedColor: "salmon"
 
-           Rectangle {
-               id: colorRect
-               width: 100
-               height: 100
-               color: "lightblue" // Initial color
+            Button {
+                text: "Change Color"
+                onClicked: {
+                    colorAnimation.from = root.initialColor;
+                    colorAnimation.to = root.selectedColor;
+                    colorAnimation.start();
+                }
+            }
 
-               // Property animation for color transition
-               PropertyAnimation {
-                   id: colorAnimation
-                   target: colorRect
-                   property: "color"
-                   duration: 500 // 500 milliseconds
-               }
-           }
-       }
+            Rectangle {
+                id: colorRect
+                width: 100
+                height: 100
+                color: root.initialColor
+
+                // Property animation for color transition
+                PropertyAnimation {
+                    id: colorAnimation
+                    target: colorRect
+                    property: "color"
+                    duration: 500 // 500 milliseconds
+                }
+            }
+        }
 
     // header: PageIndicator {
     //     count: view.count
