@@ -21,6 +21,8 @@ ApplicationWindow {
                 onClicked: {
                     colorAnimation.from = root.initialColor;
                     colorAnimation.to = root.selectedColor;
+                    colorAnimationEnd.from = root.selectedColor;
+                    colorAnimationEnd.to = root.initialColor;
                     colorAnimation.start();
                 }
             }
@@ -34,6 +36,15 @@ ApplicationWindow {
                 // Property animation for color transition
                 PropertyAnimation {
                     id: colorAnimation
+                    target: colorRect
+                    property: "color"
+                    duration: 500 // 500 milliseconds
+                    onStopped: colorAnimationEnd.start()
+                }
+
+                // Property animation for color transition
+                PropertyAnimation {
+                    id: colorAnimationEnd
                     target: colorRect
                     property: "color"
                     duration: 500 // 500 milliseconds
