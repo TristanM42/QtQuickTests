@@ -11,6 +11,7 @@ Window {
 
     property MyClass _myClass
     property AnotherClass _anotherClass
+    property list<QtObject> _personList
 
     Connections {
         target: _myClass
@@ -47,7 +48,10 @@ Window {
                 width: 100
                 height: 25
                 text: "Call function"
-                onClicked: { _myClass.myFunction("Called my function") }
+                onClicked: {
+                    _myClass.myFunction("Called my function")
+                    console.log("Length of the list : ", _personList.length);
+                }
             }
 
             Button {
