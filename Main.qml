@@ -26,6 +26,14 @@ Window {
         onMyCustomSignal1: (data) => { myTextArea.append(data + " custom signal 1") }
     }
 
+    function printPersons()
+    {
+        for (let i = 0; i < _personList.length; i++) {
+            let person = _personList[i];
+            console.log("Name: " + person.name + ", Age: " + person.age);
+        }
+    }
+
     Column {
         anchors.centerIn: parent
         spacing: 15
@@ -51,6 +59,7 @@ Window {
                 onClicked: {
                     _myClass.myFunction("Called my function")
                     console.log("Length of the list : ", _personList.length);
+                    printPersons();
                 }
             }
 
