@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls.Basic
+import QtQuick.Layouts 1.1
 
 Page {
     header: Text {
@@ -8,13 +9,14 @@ Page {
         color: "lightblue"
     }
 
-    SplitView {
+    ColumnLayout {
         anchors.fill: parent
-        orientation: Qt.Horizontal
+        spacing: 0
 
         Rectangle {
-            implicitWidth: 200
-            SplitView.maximumWidth: 400
+            Layout.alignment: Qt.AlignCenter
+            Layout.preferredWidth: 40
+            Layout.preferredHeight: 40
             color: "lightblue"
 
             Label {
@@ -24,8 +26,9 @@ Page {
         }
 
         Rectangle {
-            SplitView.minimumWidth: 50
-            SplitView.fillWidth: true
+            Layout.alignment: Qt.AlignCenter
+            Layout.preferredWidth: 40
+            Layout.preferredHeight: 40
             color: "lightgray"
 
             Label {
@@ -35,7 +38,9 @@ Page {
         }
 
         Rectangle {
-            implicitWidth: 200
+            Layout.alignment: Qt.AlignCenter
+            Layout.preferredWidth: 40
+            Layout.preferredHeight: 40
             color: "lightgreen"
 
             Label {
