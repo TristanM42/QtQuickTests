@@ -8,66 +8,33 @@ ApplicationWindow {
     visible: true
     title: qsTr("QtQuick Controls - QtQuickTests")
 
-    header: PageIndicator {
-        count: view.count
-        currentIndex: view.currentIndex
-    }
-    footer: RowLayout {
-        CustomButton {
-            text: "Custom button"
-            Layout.fillWidth: true
-            Layout.minimumWidth: 150
-            Layout.preferredHeight: 50
-        }
-        Button {
-            Layout.fillWidth: true
-            Layout.minimumWidth: 150
-            Layout.preferredHeight: 50
-            text: qsTr("Home")
-            onClicked: view.setCurrentIndex(0)
-            enabled: view.currentIndex !== 0
+    // Rectangle {
+    //     width: 200; height: 200
+
+        ListModel {
+            id: myModel
+            ListElement { name: "Element 1" }
+            ListElement { name: "Element 2" }
+            ListElement { name: "Element 3" }
         }
 
-        Button {
-            Layout.fillWidth: true
-            Layout.minimumWidth: 150
-            Layout.preferredHeight: 50
-            text: qsTr("Previous")
-            onClicked: view.decrementCurrentIndex()
-            enabled: view.currentIndex > 0
+        ListView {
+            anchors.fill: parent
+            model: myModel
+
+            delegate: Item {
+                width: parent.width; height: 50
+
+                Rectangle {
+                    width: parent.width; height: parent.height
+                    color: index % 2 === 0 ? "lightblue" : "white"
+
+                    Text {
+                        text: "Index: " + index + ", Name: " + name
+                        anchors.centerIn: parent
+                    }
+                }
+            }
         }
-
-        Button {
-            Layout.fillWidth: true
-            Layout.minimumWidth: 150
-            Layout.preferredHeight: 50
-            text: qsTr("Next")
-            onClicked: view.incrementCurrentIndex()
-            enabled: view.currentIndex < view.count - 1
-        }
-    }
-    menuBar: MenuBar { Menu {
-            title: "Menu"
-            Action { text: "Action" }
-        }
-    }
-
-    SwipeView {
-        id: view
-
-        anchors.fill: parent
-        onCurrentIndexChanged: console.log(itemAt(currentIndex))
-
-        ContainerPage {}
-
-        TabBarPage {}
-
-        ScrollViewPage {}
-
-        StackViewPage {}
-
-        SplitViewPage {}
-
-        PaneToolBarPage {}
-    }
+    //}
 }
