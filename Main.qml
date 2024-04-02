@@ -5,6 +5,8 @@ import QtQuick.Controls.Basic
 ApplicationWindow {
     width: 640
     height: 480
+    minimumWidth: 300 // Set the minimum width
+    minimumHeight: 300 // Set the minimum height
     visible: true
     title: qsTr("QtQuick Controls - QtQuickTests")
 
