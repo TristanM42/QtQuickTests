@@ -15,7 +15,7 @@ qt_add_qml_module(appQtQuickTests
     URI QtQuickTests
     VERSION 1.0
     QML_FILES
-        main.qml
+        Main.qml
         ContainerPage.qml
         TabBarPage.qml
         ScrollViewPage.qml
@@ -23,6 +23,7 @@ qt_add_qml_module(appQtQuickTests
         PaneToolBarPage.qml
         SplitViewPage.qml
         CustomButton.qml
+    SOURCES plot.h plot.cpp
 )
 
 set_target_properties(appQtQuickTests PROPERTIES

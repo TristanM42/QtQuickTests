@@ -1,42 +1,23 @@
 import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls.Basic
+import ems 1.0
 
-ApplicationWindow {
+Window {
     width: 640
     height: 480
-    minimumWidth: 300 // Set the minimum width
-    minimumHeight: 300 // Set the minimum height
     visible: true
-    title: qsTr("QtQuick Controls - QtQuickTests")
+    title: qsTr("Hello World")
 
-    // Rectangle {
-    //     width: 200; height: 200
+    Plot {
+        id: myPlot
+        anchors.fill: parent
+    }
 
-        ListModel {
-            id: myModel
-            ListElement { name: "Element 1" }
-            ListElement { name: "Element 2" }
-            ListElement { name: "Element 3" }
+    Timer {
+        interval: 100 // Triggers every 100 milliseconds
+        running: true // Start the timer
+        repeat: true // Repeats the trigger
+        onTriggered: {
+            myPlot.update();
         }
-
-        ListView {
-            anchors.fill: parent
-            model: myModel
-
-            delegate: Item {
-                width: parent.width; height: 50
-
-                Rectangle {
-                    width: parent.width; height: parent.height
-                    color: index % 2 === 0 ? "lightblue" : "white"
-
-                    Text {
-                        text: "Index: " + index + ", Name: " + name
-                        anchors.centerIn: parent
-                    }
-                }
-            }
-        }
-    //}
+    }
 }
