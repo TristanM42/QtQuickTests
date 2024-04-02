@@ -1,3 +1,4 @@
+#include <random>
 #include "plot.h"
 
 Plot::Plot() {
@@ -14,7 +15,14 @@ void Plot::paint(QPainter *painter)
     QList<QPointF> pointsList;
 
     float myMax = 0.5;
-    float step = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX/myMax));
+    std::random_device rd;
+    // Engines
+    std::mt19937 e2(rd());
+    //std::knuth_b e2(rd());
+    //std::default_random_engine e2(rd()) ;
+    //float step = static_cast<float>(rand()) / (static_cast<float>(RAND_MAX/myMax));
+    std::uniform_real_distribution<> dist(0, myMax);
+    float step = dist(e2);
 
     float x, y, x0, y0;
     x = 0.0; y = 0.0;
