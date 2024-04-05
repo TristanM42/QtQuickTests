@@ -16,6 +16,10 @@ public:
     // QQuickPaintedItem interface
 public:
     void paint(QPainter *painter);
+
+private:
+    QPointF m_points[1920*1080];
+    int m_pointsInit[1920];
 };
 
 #endif // PLOT_H
