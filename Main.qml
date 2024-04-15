@@ -2,7 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
 
-ApplicationWindow {
+Window {
+    id: mainWindow
     width: 640
     height: 480
     minimumWidth: 300 // Set the minimum width
@@ -10,33 +11,22 @@ ApplicationWindow {
     visible: true
     title: qsTr("QtQuick Controls - QtQuickTests")
 
-    // Rectangle {
-    //     width: 200; height: 200
+    Component {
+        id: somePageComponent
+        SomePage {}
+    }
 
-        ListModel {
-            id: myModel
-            ListElement { name: "Element 1" }
-            ListElement { name: "Element 2" }
-            ListElement { name: "Element 3" }
-        }
+    // Main content area
+    Rectangle {
+        width: parent.width
+        height: parent.height
 
-        ListView {
+        // Display the 'somePage.qml' component
+        Item {
             anchors.fill: parent
-            model: myModel
-
-            delegate: Item {
-                width: parent.width; height: 50
-
-                Rectangle {
-                    width: parent.width; height: parent.height
-                    color: index % 2 === 0 ? "lightblue" : "white"
-
-                    Text {
-                        text: "Index: " + index + ", Name: " + name
-                        anchors.centerIn: parent
-                    }
-                }
+            Loader {
+                sourceComponent: somePageComponent
             }
         }
-    //}
+    }
 }

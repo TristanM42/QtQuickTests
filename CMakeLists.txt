@@ -23,6 +23,7 @@ qt_add_qml_module(appQtQuickTests
         PaneToolBarPage.qml
         SplitViewPage.qml
         CustomButton.qml
+    QML_FILES SomePage.qml
 )
 
 set_target_properties(appQtQuickTests PROPERTIES
