@@ -15,7 +15,9 @@ Window {
 
     Component {
         id: somePageComponent
-        SomePage {}
+        SomePage {
+            refMainWindow: mainWindow
+        }
     }
 
     // Main content area

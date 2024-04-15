@@ -4,7 +4,8 @@ Rectangle {
     width: 200
     height: 150
     color: "lightblue"
-    property alias sharedDialog: mainWindow.mainDialog
+    property Window refMainWindow
+    property var sharedDialog: refMainWindow.mainDialog
 
     Text {
         anchors.centerIn: parent
