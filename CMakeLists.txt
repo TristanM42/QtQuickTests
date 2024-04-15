@@ -11,6 +11,8 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 qt_add_executable(appQtQuickTests
     main.cpp
+    dialog.cpp
+    dialog.h
 )
 
 qt_add_qml_module(appQtQuickTests

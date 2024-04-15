@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
+import EMS 1.0
 
 Window {
     id: mainWindow
@@ -11,12 +12,12 @@ Window {
     visible: true
     title: qsTr("QtQuick Controls - QtQuickTests")
 
-    property Dialog mainDialog
+    property Dialog _mainDialog
 
     Component {
         id: somePageComponent
         SomePage {
-            refMainWindow: mainWindow
+            sharedDialog: mainWindow._mainDialog
         }
     }
 
@@ -32,5 +33,19 @@ Window {
                 sourceComponent: somePageComponent
             }
         }
+    }
+
+    Timer {
+       id: debugTimer
+       interval: 500
+       repeat: true
+
+       onTriggered: {
+           console.log("debugVal = ", _mainDialog.debugVal);
+       }
+    }
+
+    Component.onCompleted: {
+        debugTimer.start()
     }
 }
