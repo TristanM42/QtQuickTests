@@ -6,6 +6,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.2 COMPONENTS Quick REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+# target_link_libraries(mytarget PRIVATE Qt6::Widgets)
 
 qt_add_executable(appQtQuickTests
     main.cpp
@@ -24,6 +26,7 @@ qt_add_qml_module(appQtQuickTests
         SplitViewPage.qml
         CustomButton.qml
     QML_FILES SomePage.qml
+SOURCES dialog.h dialog.cpp
 )
 
 set_target_properties(appQtQuickTests PROPERTIES

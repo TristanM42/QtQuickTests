@@ -4,7 +4,7 @@ Rectangle {
     width: 200
     height: 150
     color: "lightblue"
-    //property alias myDemoController: mainWindow._demoController
+    property alias sharedDialog: mainWindow.mainDialog
 
     Text {
         anchors.centerIn: parent

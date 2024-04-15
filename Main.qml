@@ -11,6 +11,8 @@ Window {
     visible: true
     title: qsTr("QtQuick Controls - QtQuickTests")
 
+    property Dialog mainDialog
+
     Component {
         id: somePageComponent
         SomePage {}
