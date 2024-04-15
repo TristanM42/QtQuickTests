@@ -24,7 +24,7 @@ public:
     void setCounter(int newCounter);
     QString myMessage() const;
     void setMyMessage(QString newValue);
-    int intDebug;
+    int m_intDebug;
 
 public slots:
     void mySlot(QString myMessage);

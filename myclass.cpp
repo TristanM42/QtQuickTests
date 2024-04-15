@@ -20,8 +20,8 @@ void MyClass::myFunction(QString myMessage)
 void MyClass::mySlot(QString myMessage)
 {
     myMessage.append(" - data appended in myySlot");
-    myMessage.append(" ; DEBUG intDebug = ");
-    myMessage.append(QString::number(this->intDebug));
+    myMessage.append(" ; DEBUG m_intDebug = ");
+    myMessage.append(QString::number(this->m_intDebug));
     Sleep(1000);
     qDebug() << myMessage;
     emit mySignall(myMessage);

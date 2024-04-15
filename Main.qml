@@ -40,6 +40,7 @@ Window {
                     _myClass.mySlot("Called my slot")
                     _myClass.counter = _myClass.counter + 1
                     _anotherClass.mySlot("Called my slot")
+                    console.log("DEBUG TTM _anotherClass.m_intDebug = ", _anotherClass.intDebug);
                 }
             }
 

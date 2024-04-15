@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
     MyClass *myClassPtr = new MyClass();
     AnotherClass *anotherClassPtr = new AnotherClass();
 
-    myClassPtr->intDebug = 42;
-    anotherClassPtr->intDebug = 123;
+    myClassPtr->m_intDebug = 42;
+    anotherClassPtr->setIntDebug(123);
 
     QQmlApplicationEngine engine;
     engine.setInitialProperties({
