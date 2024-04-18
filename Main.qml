@@ -5,47 +5,62 @@ import EMS 1.0
 
 Window {
     id: mainWindow
-    width: 640
-    height: 480
-    minimumWidth: 300 // Set the minimum width
-    minimumHeight: 300 // Set the minimum height
+//Rectangle {
+    width: 500
+    height: 200
     visible: true
-    title: qsTr("QtQuick Controls - QtQuickTests")
 
     property Dialog _mainDialog
+    property int step : 1
 
-    Component {
-        id: somePageComponent
-        SomePage {
-            sharedDialog: mainWindow._mainDialog
-        }
-    }
+    Item {
+        width: 200; height: 100
 
-    // Main content area
-    Rectangle {
-        width: parent.width
-        height: parent.height
+        Rectangle {
+            id: redRect
+            width: 100; height: 100
+            color: "red"
 
-        // Display the 'somePage.qml' component
-        Item {
-            anchors.fill: parent
-            Loader {
-                sourceComponent: somePageComponent
+            states: State {
+                name: "rotated"
+                PropertyChanges { target: redRect; rotation: 0 }
+            }
+
+            transitions: Transition {
+                RotationAnimation {
+                    loops: Animation.alwaysRunToEnd
+                    from: 0
+                    to: -360
+                    duration: 1000
+                }
             }
         }
-    }
 
-    Timer {
-       id: debugTimer
-       interval: 500
-       repeat: true
+        Rectangle {
+            id: blueRect
+            x: redRect.width
+            width: 50; height: 50
+            color: "blue"
 
-       onTriggered: {
-           console.log("debugVal = ", _mainDialog.debugVal);
-       }
-    }
+            states: State {
+                name: "reparented"
+                ParentChange { target: blueRect; parent: redRect; x: 0; y: 0 }
+            }
 
-    Component.onCompleted: {
-        debugTimer.start()
+            transitions: Transition {
+                ParentAnimation {
+                    NumberAnimation { properties: "x,y"; duration: 500 }
+                }
+            }
+
+            MouseArea { anchors.fill: parent; onClicked: {
+                    if (step==1)
+                        blueRect.state = "reparented";
+                    if (step==2)
+                        redRect.state = "rotated"; //console.log('test');
+                    step++;
+                }
+            }
+        }
     }
 }
