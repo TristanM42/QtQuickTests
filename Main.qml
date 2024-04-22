@@ -13,54 +13,28 @@ Window {
     property Dialog _mainDialog
     property int step : 1
 
-    Item {
-        width: 200; height: 100
-
+    Rectangle {
+        id: container
+        width: 500
+        height: 500
+        color: "transparent"
+        anchors.leftMargin: 300
         Rectangle {
-            id: redRect
-            width: 100; height: 100
-            color: "red"
-
-            states: State {
-                name: "rotated"
-                PropertyChanges { target: redRect; rotation: 0 }
-            }
-
-            transitions: Transition {
-                RotationAnimation {
-                    loops: Animation.alwaysRunToEnd
-                    from: 0
-                    to: -360
-                    duration: 1000
-                }
-            }
-        }
-
-        Rectangle {
-            id: blueRect
-            x: redRect.width
-            width: 50; height: 50
+            id: rect1
+            width: 100
+            height: 100
             color: "blue"
-
-            states: State {
-                name: "reparented"
-                ParentChange { target: blueRect; parent: redRect; x: 0; y: 0 }
-            }
-
-            transitions: Transition {
-                ParentAnimation {
-                    NumberAnimation { properties: "x,y"; duration: 500 }
-                }
-            }
-
-            MouseArea { anchors.fill: parent; onClicked: {
-                    if (step==1)
-                        blueRect.state = "reparented";
-                    if (step==2)
-                        redRect.state = "rotated"; //console.log('test');
-                    step++;
-                }
-            }
+            anchors.left: parent.left
+            anchors.top: parent.top
+        }
+        Rectangle {
+            id: rect2
+            width: 100
+            height: 100
+            color: "red"
+            anchors.top: rect1.bottom
+            anchors.left: rect1.right
+            anchors.leftMargin: -25
         }
     }
 }
