@@ -12,12 +12,12 @@ Window {
     visible: true
 
     property Dialog _mainDialog
-    property int step : 1
 
     Rectangle {
         width: 1000
         height: 1000
         color: "black"
+        z: 0
 
         Shape {
             width: 200; height: 200
@@ -51,6 +51,7 @@ Window {
     Item {
         width: 400
         height: 400
+        z: 1
 
         property real endAngle: Math.PI*2
 
@@ -59,7 +60,6 @@ Window {
             width: parent.width
             height: parent.height
             anchors.fill: parent
-            z: 1
 
             onPaint: {
                 var ctx = getContext("2d");
@@ -69,6 +69,20 @@ Window {
                 ctx.strokeStyle = "red";
                 ctx.closePath();
                 ctx.stroke();
+            }
+        }
+    }
+
+    Shape {
+        z: 2
+        ShapePath {
+            fillColor: "red"
+            strokeWidth: 2
+            strokeColor: "blue"
+            startX: 50
+            startY: 50
+            PathSvg {
+                path: "L 150 50 L 100 150 z"
             }
         }
     }
