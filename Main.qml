@@ -13,28 +13,83 @@ Window {
     property Dialog _mainDialog
     property int step : 1
 
-    Rectangle {
-        id: container
-        width: 500
-        height: 500
-        color: "transparent"
-        anchors.leftMargin: 300
+    Item {
+        width: 200; height: 100
+
         Rectangle {
-            id: rect1
-            width: 100
-            height: 100
-            color: "blue"
-            anchors.left: parent.left
-            anchors.top: parent.top
-        }
-        Rectangle {
-            id: rect2
-            width: 100
-            height: 100
+            id: redRect
+            width: 100; height: 100
             color: "red"
-            anchors.top: rect1.bottom
-            anchors.left: rect1.right
-            anchors.leftMargin: -25
+
+            states: [
+                State {
+                    name: ""
+                    PropertyChanges { target: redRect; rotation: 0 }
+                },
+                State {
+                    name: "rotated"
+                    PropertyChanges { target: redRect; rotation: -360 }
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    from: "*"
+                    to: "rotated"
+                    RotationAnimation {
+                        id: rotAnim
+                        from: 0
+                        to: -360
+                        duration: 1000
+                    }
+                }
+            ]
+        }
+
+        Rectangle {
+            id: blueRect
+            x: redRect.width
+            width: 50; height: 50
+            color: "blue"
+
+            states: [
+                State {
+                    name: ""
+                    PropertyChanges { target: blueRect; x: redRect.width }
+                },
+                State {
+                    name: "reparented"
+                    ParentChange { target: blueRect; parent: redRect; x: 0; y: 0 }
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    from: "*"
+                    to: "reparented"
+                    ParentAnimation {
+                        NumberAnimation { properties: "x,y"; duration: 500 }
+                    }
+                }
+            ]
+
+            MouseArea { anchors.fill: parent; onClicked: {
+                    if (step==1)
+                    {
+                        // Reset properties to allow multiple loops
+                        redRect.state = "";
+                        blueRect.state = "";
+
+                        blueRect.state = "reparented";
+                    }
+                    if (step==2)
+                    {
+                        redRect.state = "rotated";
+                        step = 0
+                    }
+                    step++;
+                }
+            }
         }
     }
 }
