@@ -1,95 +1,78 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
-import EMS 1.0
 
-Window {
-    id: mainWindow
-//Rectangle {
-    width: 500
-    height: 200
+ApplicationWindow {
+    width: 640
+    height: 480
     visible: true
+    title: qsTr("QtQuick Controls - QtQuickTests")
 
-    property Dialog _mainDialog
-    property int step : 1
+    header: PageIndicator {
+        count: view.count
+        currentIndex: view.currentIndex
+    }
+    footer: RowLayout {
+        CustomButton {
+            Layout.fillWidth: true
+            Layout.minimumWidth: 150
+            Layout.preferredHeight: 50
 
-    Item {
-        width: 200; height: 100
-
-        Rectangle {
-            id: redRect
-            width: 100; height: 100
-            color: "red"
-
-            states: [
-                State {
-                    name: ""
-                    PropertyChanges { target: redRect; rotation: 0 }
-                },
-                State {
-                    name: "rotated"
-                    PropertyChanges { target: redRect; rotation: -360 }
-                }
-            ]
-
-            transitions: [
-                Transition {
-                    from: "*"
-                    to: "rotated"
-                    RotationAnimation {
-                        id: rotAnim
-                        from: 0
-                        to: -360
-                        duration: 1000
-                    }
-                }
-            ]
+            totalStep : 2
+            state1Text: "Start"
+            state2Text: "Stop"
+            state1BGColor: "green"
+            state2BGColor: "red"
+        }
+        Button {
+            Layout.fillWidth: true
+            Layout.minimumWidth: 150
+            Layout.preferredHeight: 50
+            text: qsTr("Home")
+            onClicked: view.setCurrentIndex(0)
+            enabled: view.currentIndex !== 0
         }
 
-        Rectangle {
-            id: blueRect
-            x: redRect.width
-            width: 50; height: 50
-            color: "blue"
-
-            states: [
-                State {
-                    name: ""
-                    PropertyChanges { target: blueRect; x: redRect.width }
-                },
-                State {
-                    name: "reparented"
-                    ParentChange { target: blueRect; parent: redRect; x: 0; y: 0 }
-                }
-            ]
-
-            transitions: [
-                Transition {
-                    from: "*"
-                    to: "reparented"
-                    ParentAnimation {
-                        NumberAnimation { properties: "x,y"; duration: 500 }
-                    }
-                }
-            ]
-
-            MouseArea { anchors.fill: parent; onClicked: {
-                    if (step==1)
-                    {
-                        // Reset properties to allow multiple loops
-                        redRect.state = "";
-                        blueRect.state = "";
-
-                        blueRect.state = "reparented";
-                    }
-                    if (step==2)
-                    {
-                        redRect.state = "rotated";
-                        step = 0
-                    }
-                    step++;
-                }
-            }
+        Button {
+            Layout.fillWidth: true
+            Layout.minimumWidth: 150
+            Layout.preferredHeight: 50
+            text: qsTr("Previous")
+            onClicked: view.decrementCurrentIndex()
+            enabled: view.currentIndex > 0
         }
+
+        Button {
+            Layout.fillWidth: true
+            Layout.minimumWidth: 150
+            Layout.preferredHeight: 50
+            text: qsTr("Next")
+            onClicked: view.incrementCurrentIndex()
+            enabled: view.currentIndex < view.count - 1
+        }
+    }
+    menuBar: MenuBar { Menu {
+            title: "Menu"
+            Action { text: "Action" }
+        }
+    }
+
+    SwipeView {
+        id: view
+
+        anchors.fill: parent
+        onCurrentIndexChanged: console.log(itemAt(currentIndex))
+
+        ContainerPage {}
+
+        TabBarPage {}
+
+        ScrollViewPage {}
+
+        StackViewPage {}
+
+        SplitViewPage {}
+
+        PaneToolBarPage {}
     }
 }
