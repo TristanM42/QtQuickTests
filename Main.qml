@@ -1,78 +1,76 @@
 import QtQuick
-import QtQuick.Layouts
 import QtQuick.Controls.Basic
+import QtQuickTests 1.0
+import QtQuick.Layouts
 
-ApplicationWindow {
+Window {
+    id:rootItem
     width: 640
     height: 480
     visible: true
-    title: qsTr("QtQuick Controls - QtQuickTests")
+    title: qsTr("Test rowlayout")
 
-    header: PageIndicator {
-        count: view.count
-        currentIndex: view.currentIndex
-    }
-    footer: RowLayout {
-        CustomButton {
-            Layout.fillWidth: true
-            Layout.minimumWidth: 150
-            Layout.preferredHeight: 50
+    RowLayout
+    {
+       spacing: 0
+       anchors.fill: parent
 
-            totalStep : 2
-            state1Text: "Start"
-            state2Text: "Stop"
-            state1BGColor: "green"
-            state2BGColor: "red"
-        }
-        Button {
-            Layout.fillWidth: true
-            Layout.minimumWidth: 150
-            Layout.preferredHeight: 50
-            text: qsTr("Home")
-            onClicked: view.setCurrentIndex(0)
-            enabled: view.currentIndex !== 0
+        ColumnLayout {
+            width: parent.width
+            height: parent.height
+
+            Rectangle {
+                color: "red"
+                border.color: "grey"
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignCenter
+            }
         }
 
-        Button {
-            Layout.fillWidth: true
-            Layout.minimumWidth: 150
-            Layout.preferredHeight: 50
-            text: qsTr("Previous")
-            onClicked: view.decrementCurrentIndex()
-            enabled: view.currentIndex > 0
+        ColumnLayout {
+            id: customButtons
+            width: parent.width
+            height: parent.height
+            spacing: 0
+
+            Rectangle {
+                color: "green"
+                border.color: "grey"
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignCenter
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                spacing: 0
+
+                Rectangle {
+                    color: "yellow"
+                    border.color: "grey"
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignCenter
+                }
+
+                Rectangle {
+                    color: "purple"
+                    border.color: "grey"
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.alignment: Qt.AlignCenter
+                }
+            }
+
+            Rectangle {
+                color: "blue"
+                border.color: "grey"
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignCenter
+            }
         }
-
-        Button {
-            Layout.fillWidth: true
-            Layout.minimumWidth: 150
-            Layout.preferredHeight: 50
-            text: qsTr("Next")
-            onClicked: view.incrementCurrentIndex()
-            enabled: view.currentIndex < view.count - 1
-        }
-    }
-    menuBar: MenuBar { Menu {
-            title: "Menu"
-            Action { text: "Action" }
-        }
-    }
-
-    SwipeView {
-        id: view
-
-        anchors.fill: parent
-        onCurrentIndexChanged: console.log(itemAt(currentIndex))
-
-        ContainerPage {}
-
-        TabBarPage {}
-
-        ScrollViewPage {}
-
-        StackViewPage {}
-
-        SplitViewPage {}
-
-        PaneToolBarPage {}
     }
 }
