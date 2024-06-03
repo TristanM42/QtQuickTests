@@ -1,76 +1,37 @@
 import QtQuick
-import QtQuick.Controls.Basic
+import QtQuick.Controls
 import QtQuickTests 1.0
 import QtQuick.Layouts
 
 Window {
-    id:rootItem
+    id: rootItem
     width: 640
     height: 480
     visible: true
-    title: qsTr("Test rowlayout")
+    title: qsTr("Test Drawer")
+    color: "white"
 
-    RowLayout
-    {
-       spacing: 0
-       anchors.fill: parent
+    Drawer { // warning, can't be used inside a grid/row/column element
+        id: drawer
+        parent: rootItem
+        width: 0.3 * rootItem.width
+        height: rootItem.height
+        edge: Qt.RightEdge
 
-        ColumnLayout {
-            width: parent.width
+        Rectangle {
+            color: "grey"
             height: parent.height
+            width: parent.width
 
-            Rectangle {
-                color: "red"
-                border.color: "grey"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.alignment: Qt.AlignCenter
+            Label {
+                text: "Drawer content"
+                color: "white"
+                anchors.centerIn: parent
             }
         }
 
-        ColumnLayout {
-            id: customButtons
-            width: parent.width
-            height: parent.height
-            spacing: 0
-
-            Rectangle {
-                color: "green"
-                border.color: "grey"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.alignment: Qt.AlignCenter
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                spacing: 0
-
-                Rectangle {
-                    color: "yellow"
-                    border.color: "grey"
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignCenter
-                }
-
-                Rectangle {
-                    color: "purple"
-                    border.color: "grey"
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignCenter
-                }
-            }
-
-            Rectangle {
-                color: "blue"
-                border.color: "grey"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.alignment: Qt.AlignCenter
-            }
+        Component.onCompleted: {
+            drawer.open();
         }
     }
 }
