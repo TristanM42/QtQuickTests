@@ -15,62 +15,52 @@ Window {
        spacing: 0
        anchors.fill: parent
 
-        ColumnLayout {
-            width: parent.width
-            height: parent.height
+       Rectangle {
+           id: rectid
+           color: "red"
+           Layout.fillWidth: true
+           Layout.fillHeight: true
 
-            Rectangle {
-                color: "red"
-                border.color: "grey"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.alignment: Qt.AlignCenter
-            }
-        }
+           Button {
+               id: elem
+               width: 100
+               text: "Elem"
+               anchors.right: parent.right
+               anchors.top: parent.verticalCenter
+           }
+       }
 
-        ColumnLayout {
-            id: customButtons
-            width: parent.width
-            height: parent.height
-            spacing: 0
+       Rectangle {
+           color: "green"
+           Layout.fillWidth: true
+           Layout.fillHeight: true
 
-            Rectangle {
-                color: "green"
-                border.color: "grey"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.alignment: Qt.AlignCenter
-            }
+           Button {
+               id: elem1
+               width: 100
+               text: "Elem"
+               anchors.right: parent.right
+               anchors.top: parent.verticalCenter
+           }
+       }
 
-            RowLayout {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                spacing: 0
+       Rectangle {
+           color: "blue"
+           Layout.fillWidth: true
+           Layout.fillHeight: true
 
-                Rectangle {
-                    color: "yellow"
-                    border.color: "grey"
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignCenter
-                }
+           Button {
+               id: elem2
+               width: 100
+               text: "Elem"
+               anchors.right: parent.right
+               anchors.top: parent.verticalCenter
+           }
+       }
 
-                Rectangle {
-                    color: "purple"
-                    border.color: "grey"
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.alignment: Qt.AlignCenter
-                }
-            }
-
-            Rectangle {
-                color: "blue"
-                border.color: "grey"
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.alignment: Qt.AlignCenter
-            }
-        }
+       // Filler item
+       Item {
+           Layout.preferredWidth: rectid.width - elem.width
+       }
     }
 }
