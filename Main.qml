@@ -1,37 +1,38 @@
-import QtQuick
+import QtQuick 2.0
 import QtQuick.Controls
-import QtQuickTests 1.0
-import QtQuick.Layouts
 
 Window {
     id: rootItem
-    width: 640
-    height: 480
+    width: 800
+    height: 600
     visible: true
     title: qsTr("Test Drawer")
     color: "white"
 
-    Drawer { // warning, can't be used inside a grid/row/column element
-        id: drawer
-        parent: rootItem
-        width: 0.3 * rootItem.width
-        height: rootItem.height
-        edge: Qt.RightEdge
+    Item {
+        width: 800
+        height: 600
 
         Rectangle {
-            color: "grey"
-            height: parent.height
-            width: parent.width
+            id: rect
+            anchors.centerIn: parent
+            implicitWidth: 500
+            implicitHeight: 200
+            color: "red"
 
-            Label {
-                text: "Drawer content"
-                color: "white"
+            Button {
+                text: "Toggle Full Size"
                 anchors.centerIn: parent
+                onClicked: {
+                    if (rect.anchors.fill) {
+                        rect.anchors.fill = undefined
+                        rect.width = undefined
+                        rect.height = undefined
+                    } else {
+                        rect.anchors.fill = rect.parent
+                    }
+                }
             }
-        }
-
-        Component.onCompleted: {
-            drawer.open();
         }
     }
 }
