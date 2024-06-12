@@ -10,57 +10,61 @@ Window {
     visible: true
     title: qsTr("Test rowlayout")
 
-    RowLayout
+    Row
     {
-       spacing: 0
-       anchors.fill: parent
+        id: root
+        spacing: 0
+        anchors.fill: parent
+        property int evenSpacing
 
-       Rectangle {
-           id: rectid
-           color: "red"
-           Layout.fillWidth: true
-           Layout.fillHeight: true
+        onWidthChanged: () =>
+                            {
+                               var totalChildrenWidth = 0;
+                               for(var i = 0; i < root.children.length; ++i){
+                                   totalChildrenWidth += root.children[i].children[0].width; // assuming every items are inside a container
+                               }
+                               root.evenSpacing = (root.width-totalChildrenWidth)/(root.children.length+1);
+                            }
+
+
+        Rectangle {
+            id: rectid
+            color: "red"
+            width: root.evenSpacing + children[0].width
+            height: 50
+
+            Button {
+               width: 100
+               text: "Elem 1"
+               anchors.right: parent.right
+               anchors.top: parent.verticalCenter
+            }
+        }
+
+        Rectangle {
+            color: "green"
+            width: root.evenSpacing + children[0].width
+            height: 50
 
            Button {
-               id: elem
-               width: 100
-               text: "Elem"
+               width: 150
+               text: "Elem 2"
                anchors.right: parent.right
                anchors.top: parent.verticalCenter
            }
-       }
+        }
 
-       Rectangle {
-           color: "green"
-           Layout.fillWidth: true
-           Layout.fillHeight: true
+        Rectangle {
+            color: "blue"
+            width: root.evenSpacing + children[0].width
+            height: 50
 
            Button {
-               id: elem1
                width: 100
-               text: "Elem"
+               text: "Elem 3"
                anchors.right: parent.right
                anchors.top: parent.verticalCenter
            }
-       }
-
-       Rectangle {
-           color: "blue"
-           Layout.fillWidth: true
-           Layout.fillHeight: true
-
-           Button {
-               id: elem2
-               width: 100
-               text: "Elem"
-               anchors.right: parent.right
-               anchors.top: parent.verticalCenter
-           }
-       }
-
-       // Filler item
-       Item {
-           Layout.preferredWidth: rectid.width - elem.width
-       }
+        }
     }
 }
