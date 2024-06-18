@@ -17,6 +17,11 @@ Window {
     visible: true
     title: qsTr("Test qtvirtualkeyboard")
 
+    Component.onCompleted: () =>
+                           {
+                                VirtualKeyboardSettings.locale = "fr_FR"; //en_US
+                           }
+
     // Show keyboard inside the window (on text field click)
     InputPanel {
         id: inputPanel
