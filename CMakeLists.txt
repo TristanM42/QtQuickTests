@@ -21,7 +21,9 @@ qt_add_executable(appQtQuickTests
 qt_add_qml_module(appQtQuickTests
     URI QtQuickTests
     VERSION 1.0
-    QML_FILES Main.qml
+    QML_FILES
+        Main.qml
+        views/components/Label.qml
     RESOURCES myResources.qrc
     SOURCES myclass.cpp myclass.h
     SOURCES anotherclass.h anotherclass.cpp

@@ -17,10 +17,10 @@ int main(int argc, char *argv[])
     anotherClassPtr->intDebug = 123;
 
     QQmlApplicationEngine engine;
-    engine.setInitialProperties({
-        {"_myClass", QVariant::fromValue(myClassPtr)},
-        {"_anotherClass", QVariant::fromValue(anotherClassPtr)}
-    });
+    // engine.setInitialProperties({
+    //     {"_myClass", QVariant::fromValue(myClassPtr)},
+    //     {"_anotherClass", QVariant::fromValue(anotherClassPtr)}
+    // });
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,

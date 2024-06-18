@@ -1,98 +1,94 @@
 import QtQuick
 import QtQuick.Controls.Basic
 import QtQuickTests 1.0
+import QtQuick.Layouts
+
+import QtQuick.VirtualKeyboard 2.15
+import QtQuick.VirtualKeyboard.Styles 2.15
+import QtQuick.VirtualKeyboard.Settings 2.15
+
+import "views/components" as Ems
 
 Window {
     id:rootItem
     width: 640
     height: 480
+    color: "grey"
     visible: true
-    title: qsTr("QML and C++ integration")
+    title: qsTr("Test qtvirtualkeyboard")
 
-    property MyClass _myClass
-    property AnotherClass _anotherClass
+    ColumnLayout {
+        width: 200
+        height: 200
+        spacing: 10
 
-    Connections {
-        target: _myClass
-        onMySignall: (data) => { myTextArea.append(data) }
-        onCounterChanged: console.log("Counter property changed")
-        onMyCustomSignal1: (data) => { myTextArea.append(data + " custom signal 1") }
-        onMyCustomSignal2: (data) => { myTextArea.append(data + " custom signal 2") }
-    }
+        // Label
+        Item {
+            Layout.fillWidth: true
+            Layout.minimumHeight: 20
+            Layout.maximumHeight: 20
 
-    Connections {
-        target: _anotherClass
-        onMyCustomSignal1: (data) => { myTextArea.append(data + " custom signal 1") }
-    }
+            Rectangle {
+                anchors.fill: parent
+                color: "transparent"
 
-    Column {
-        anchors.centerIn: parent
-        spacing: 15
+                Ems.Label {
+                    defaultText: qsTr("Enter User ID")
+                    defaultFontSize: 16
 
-        Row {
-            spacing: 15
-
-            Button {
-                width: 100
-                height: 25
-                text: "Call slot"
-                onClicked: {
-                    _myClass.mySlot("Called my slot")
-                    _myClass.counter = _myClass.counter + 1
-                    _anotherClass.mySlot("Called my slot")
-                }
-            }
-
-            Button {
-                width: 100
-                height: 25
-                text: "Call function"
-                onClicked: { _myClass.myFunction("Called my function") }
-            }
-
-            Button {
-                width: 100
-                height: 25
-                text: "Change property"
-                onClicked: {
-                    _myClass.myMessage += "Changing propertyy"
-                    _anotherClass.myMessage += "Changing propertyyy"
+                    anchors.left: parent.left
                 }
             }
         }
 
-        Text {
-            text: "Slot called: " + _myClass.counter + " times"
-        }
+        // TextField
+        Item {
+            Layout.fillWidth: true
+            Layout.minimumHeight: 50
+            Layout.maximumHeight: 50
 
-        ScrollView {
-            id: view
+            Rectangle {
+                anchors.fill: parent
+                color: "white"
 
-            width: 350
-            height: 200
-            rightPadding: 20
-            bottomPadding: 0
-
-            TextArea {
-                id: myTextArea
-
-                property int entries: 1
-
-                text: "Output will appear below..."
-                onTextChanged: {
-                    entries = entries + 1
-                    if (entries > 13) {
-                        myFrame.height = myFrame.height + 16
-                    }
+                TextField {
+                    placeholderText: qsTr("User ID")
                 }
             }
+        }
 
-            Frame {
-                id: myFrame
+        // Label
+        Item {
+            Layout.fillWidth: true
+            Layout.minimumHeight: 20
+            Layout.maximumHeight: 20
 
-                width: 330
-                height: 200
-                clip: true
+            Rectangle {
+                anchors.fill: parent
+                color: "transparent"
+
+                Ems.Label {
+                    defaultText: qsTr("Enter Patient ID")
+                    defaultFontSize: 16
+
+                    anchors.left: parent.left
+                }
+            }
+        }
+
+        // TextField
+        Item {
+            Layout.fillWidth: true
+            Layout.minimumHeight: 50
+            Layout.maximumHeight: 50
+
+            Rectangle {
+                anchors.fill: parent
+                color: "white"
+
+                TextField {
+                    placeholderText: qsTr("Patient ID")
+                }
             }
         }
     }
