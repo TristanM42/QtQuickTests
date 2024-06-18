@@ -87,6 +87,7 @@ Window {
                 TextField {
                     placeholderText: qsTr("User ID")
                     onAccepted: patientField.focus = true
+                    inputMethodHints: Qt.ImhNoAutoUppercase
                     EnterKeyAction.actionId: EnterKeyAction.Next
                     EnterKeyAction.label: "Next"
                 }
@@ -125,6 +126,7 @@ Window {
                 TextField {
                     id: patientField
                     placeholderText: qsTr("Patient ID")
+                    inputMethodHints: Qt.ImhNoAutoUppercase
                     EnterKeyAction.actionId: EnterKeyAction.Send
                     onAccepted: () => { Qt.inputMethod.hide(); }
                 }
