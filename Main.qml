@@ -17,6 +17,14 @@ Window {
     visible: true
     title: qsTr("Test qtvirtualkeyboard")
 
+    // Show keyboard inside the window (on text field click)
+    InputPanel {
+        id: inputPanel
+        y: Qt.inputMethod.visible ? parent.height - inputPanel.height : parent.height
+        anchors.left: parent.left
+        anchors.right: parent.right
+    }
+
     ColumnLayout {
         width: 200
         height: 200
@@ -53,6 +61,7 @@ Window {
 
                 TextField {
                     placeholderText: qsTr("User ID")
+                    onAccepted: patientField.focus = true
                 }
             }
         }
@@ -87,7 +96,9 @@ Window {
                 color: "white"
 
                 TextField {
+                    id: patientField
                     placeholderText: qsTr("Patient ID")
+                    onAccepted: () => { Qt.inputMethod.hide(); }
                 }
             }
         }
