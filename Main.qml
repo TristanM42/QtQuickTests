@@ -20,9 +20,34 @@ Window {
     // Show keyboard inside the window (on text field click)
     InputPanel {
         id: inputPanel
-        y: Qt.inputMethod.visible ? parent.height - inputPanel.height : parent.height
+        y: yPositionWhenHidden
         anchors.left: parent.left
         anchors.right: parent.right
+
+        property real yPositionWhenHidden: parent.height
+
+        states: State {
+            name: "visible"
+            when: inputPanel.active
+            PropertyChanges {
+                target: inputPanel
+                y: inputPanel.yPositionWhenHidden - inputPanel.height
+            }
+        }
+        transitions: Transition {
+            id: inputPanelTransition
+            from: ""
+            to: "visible"
+            reversible: true
+            enabled: !VirtualKeyboardSettings.fullScreenMode
+            ParallelAnimation {
+                NumberAnimation {
+                    properties: "y"
+                    duration: 250
+                    easing.type: Easing.InOutQuad
+                }
+            }
+        }
     }
 
     ColumnLayout {
