@@ -62,6 +62,8 @@ Window {
                 TextField {
                     placeholderText: qsTr("User ID")
                     onAccepted: patientField.focus = true
+                    EnterKeyAction.actionId: EnterKeyAction.Next
+                    EnterKeyAction.label: "Next"
                 }
             }
         }
@@ -98,6 +100,7 @@ Window {
                 TextField {
                     id: patientField
                     placeholderText: qsTr("Patient ID")
+                    EnterKeyAction.actionId: EnterKeyAction.Send
                     onAccepted: () => { Qt.inputMethod.hide(); }
                 }
             }
