@@ -1,9 +1,12 @@
 #include <random>
 #include "plot.h"
+#include <cmath>
+#include <math.h>
 
 Plot::Plot() {
     srand(static_cast<unsigned>(time(0)));
     timer.start();
+    timerAnim.start();
 }
 
 void Plot::paint(QPainter *painter)
@@ -36,8 +39,17 @@ void Plot::paint(QPainter *painter)
     qDebug() << "m_nbPoints = " << m_nbPoints << " ; FPS = " << 1000/timer.elapsed();
     timer.start();
     m_points[0] = randomPoint;
+
+    // Add animation to points to test if performance is worse when a lot of points are updated
+    float animPeriod = 4000.0;
+    float animRadius = 50;
+    int xTrans = (int)std::round(animRadius * cos(timerAnim.elapsed()/animPeriod * M_PI*2));
+    int yTrans = (int)std::round(animRadius * sin(timerAnim.elapsed()/animPeriod * M_PI*2));
+    if (timerAnim.elapsed() > animPeriod)
+        timerAnim.start();
+
     for(QPointF ppoint : m_points) {
-        painter->drawPoint(ppoint);
+        painter->drawPoint(ppoint + QPointF(xTrans, yTrans));
     }
     return;
 }
