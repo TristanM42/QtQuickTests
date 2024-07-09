@@ -6,6 +6,9 @@
 #include <QQuickPaintedItem>
 #include <QPainter>
 
+#include <QDebug>
+#include <QElapsedTimer>
+
 class Plot : public QQuickPaintedItem
 {
     Q_OBJECT
@@ -20,6 +23,7 @@ public:
 
 private:
     QPointF m_points[640*480];
+    QElapsedTimer timer;
 };
 
 #endif // PLOT_H

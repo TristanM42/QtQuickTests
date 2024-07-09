@@ -13,10 +13,13 @@ Window {
     }
 
     Timer {
-        interval: 100 // Triggers every 100 milliseconds
+        interval: 10 // Triggers every 100 milliseconds
         running: true // Start the timer
         repeat: true // Repeats the trigger
+        property int count: 0
         onTriggered: {
+            //count++;
+            //console.log("timer update : " + count);
             myPlot.update();
         }
     }

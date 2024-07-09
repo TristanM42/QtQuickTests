@@ -3,6 +3,7 @@
 
 Plot::Plot() {
     srand(static_cast<unsigned>(time(0)));
+    timer.start();
 }
 
 void Plot::paint(QPainter *painter)
@@ -32,8 +33,9 @@ void Plot::paint(QPainter *painter)
     auto randomPoint = QPointF(x, y);
     m_points[(int)std::round(x)+(int)std::round(y)*480] = randomPoint;
     m_nbPoints++;
-
-    qDebug() << "m_nbPoints = " << m_nbPoints;
+    qDebug() << "m_nbPoints = " << m_nbPoints << " ; FPS = " << 1000/timer.elapsed();
+    timer.start();
+    m_points[0] = randomPoint;
     for(QPointF ppoint : m_points) {
         painter->drawPoint(ppoint);
     }
