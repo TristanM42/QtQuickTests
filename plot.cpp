@@ -48,8 +48,12 @@ void Plot::paint(QPainter *painter)
     if (timerAnim.elapsed() > animPeriod)
         timerAnim.start();
 
+    QElapsedTimer drawTimer;
+    drawTimer.start();
     for(QPointF ppoint : m_points) {
         painter->drawPoint(ppoint + QPointF(xTrans, yTrans));
     }
+    qDebug() << "FPS paint loop = " << 1000/drawTimer.elapsed();
+
     return;
 }
