@@ -7,6 +7,7 @@ Plot::Plot() {
     srand(static_cast<unsigned>(time(0)));
     timer.start();
     timerAnim.start();
+    timerLogs.start();
 }
 
 void Plot::paint(QPainter *painter)
@@ -29,6 +30,15 @@ void Plot::paint(QPainter *painter)
     std::uniform_real_distribution<> dist(0, myMax);
     float step = dist(e2);
 
+    // Add animation to points to test if performance is worse when a lot of points are updated
+    float animPeriod = 4000.0;
+    float animRadius = 50;
+    int xTrans = (int)std::round(animRadius * cos(timerAnim.elapsed()/animPeriod * M_PI*2));
+    int yTrans = (int)std::round(animRadius * sin(timerAnim.elapsed()/animPeriod * M_PI*2));
+    //qDebug() << "xTrans = " << xTrans << " ; yTrans = " << yTrans;
+    if (timerAnim.elapsed() > animPeriod)
+        timerAnim.start();
+
     x0 = dist(e2);
     y0 = dist(e2);
     x = 640 * (x0 - xMin) / (xMax - xMin); // normalisation de x0 entre 0 et 1 puis multiplication par le max du nouveau repère
@@ -36,24 +46,29 @@ void Plot::paint(QPainter *painter)
     auto randomPoint = QPointF(x, y);
     m_points[(int)std::round(x)+(int)std::round(y)*480] = randomPoint;
     m_nbPoints++;
-    qDebug() << "m_nbPoints = " << m_nbPoints << " ; FPS = " << 1000/timer.elapsed();
+    bool refreshLogs = false;
+    if (timerLogs.elapsed() > animPeriod/8)
+    {
+        refreshLogs = true;
+        timerLogs.start();
+    }
+    if (refreshLogs)
+        qDebug() << "m_nbPoints = " << m_nbPoints << " ; FPS = " << 1000/timer.elapsed();
     timer.start();
     m_points[0] = randomPoint;
 
-    // Add animation to points to test if performance is worse when a lot of points are updated
-    float animPeriod = 4000.0;
-    float animRadius = 50;
-    int xTrans = (int)std::round(animRadius * cos(timerAnim.elapsed()/animPeriod * M_PI*2));
-    int yTrans = (int)std::round(animRadius * sin(timerAnim.elapsed()/animPeriod * M_PI*2));
-    if (timerAnim.elapsed() > animPeriod)
-        timerAnim.start();
-
     QElapsedTimer drawTimer;
     drawTimer.start();
-    for(QPointF ppoint : m_points) {
-        painter->drawPoint(ppoint + QPointF(xTrans, yTrans));
+    for(int i=0; i<std::size(m_points); i++) {
+        m_points[i] += QPointF(xTrans, yTrans);
+        //painter->drawPoint(m_points[i]); // 7~11 FPS
     }
-    qDebug() << "FPS paint loop = " << 1000/drawTimer.elapsed();
+    painter->drawPoints(m_points, (int)std::size(m_points));
+    for(int i=0; i<std::size(m_points); i++) {
+        m_points[i] -= QPointF(xTrans, yTrans);
+    }
+    if (refreshLogs)
+        qDebug() << "FPS paint loop = " << 1000/drawTimer.elapsed();
 
     return;
 }

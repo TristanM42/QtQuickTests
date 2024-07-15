@@ -13,7 +13,7 @@ Window {
     }
 
     Timer {
-        interval: 10 // Triggers every 100 milliseconds
+        interval: 10 // Triggers every 10 milliseconds = 100 FPS expected
         running: true // Start the timer
         repeat: true // Repeats the trigger
         property int count: 0

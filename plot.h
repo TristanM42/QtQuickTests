@@ -25,6 +25,7 @@ private:
     QPointF m_points[640*480];
     QElapsedTimer timer;
     QElapsedTimer timerAnim;
+    QElapsedTimer timerLogs;
 };
 
 #endif // PLOT_H
