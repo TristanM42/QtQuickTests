@@ -23,7 +23,12 @@ qt_add_qml_module(appQtQuickTests
         PaneToolBarPage.qml
         SplitViewPage.qml
         CustomButton.qml
-    SOURCES plot.h plot.cpp
+    SOURCES
+        plot.h plot.cpp
+        src/date_utils.cpp
+        src/date_utils.hpp
+        src/string_utils.cpp
+        src/string_utils.hpp
 )
 
 set_target_properties(appQtQuickTests PROPERTIES

@@ -2,10 +2,12 @@
 #include "plot.h"
 #include <cmath>
 #include <math.h>
+#include "src/date_utils.hpp"
+
+using namespace utils;
 
 Plot::Plot() {
     srand(static_cast<unsigned>(time(0)));
-    timer.start();
     timerAnim.start();
     timerLogs.start();
 }
@@ -52,13 +54,16 @@ void Plot::paint(QPainter *painter)
         refreshLogs = true;
         timerLogs.start();
     }
+    uint64_t timeStampMicro;
     if (refreshLogs)
-        qDebug() << "m_nbPoints = " << m_nbPoints << " ; FPS = " << 1000/timer.elapsed();
-    timer.start();
+    {
+        timeStampMicro = DateTime::GetCurrentTimestamp();
+        qDebug() << "m_nbPoints = " << m_nbPoints << " ; FPS = " << 1000/((timeStampMicro-fullLoopStartTimestamp)/1000);
+    }
+    fullLoopStartTimestamp = DateTime::GetCurrentTimestamp();
     m_points[0] = randomPoint;
 
-    QElapsedTimer drawTimer;
-    drawTimer.start();
+    paintLoopStartTimestamp = DateTime::GetCurrentTimestamp();
     for(int i=0; i<std::size(m_points); i++) {
         m_points[i] += QPointF(xTrans, yTrans);
         //painter->drawPoint(m_points[i]); // 7~11 FPS
@@ -68,7 +73,10 @@ void Plot::paint(QPainter *painter)
         m_points[i] -= QPointF(xTrans, yTrans);
     }
     if (refreshLogs)
-        qDebug() << "FPS paint loop = " << 1000/drawTimer.elapsed();
+    {
+        timeStampMicro = DateTime::GetCurrentTimestamp();
+        qDebug() << "FPS paint loop = " << 1000/((timeStampMicro-paintLoopStartTimestamp)/1000);
+    }
 
     return;
 }

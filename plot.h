@@ -23,7 +23,8 @@ public:
 
 private:
     QPointF m_points[640*480];
-    QElapsedTimer timer;
+    uint64_t fullLoopStartTimestamp = 0;
+    uint64_t paintLoopStartTimestamp = 0;
     QElapsedTimer timerAnim;
     QElapsedTimer timerLogs;
 };
