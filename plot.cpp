@@ -41,12 +41,15 @@ void Plot::paint(QPainter *painter)
     if (timerAnim.elapsed() > animPeriod)
         timerAnim.start();
 
-    x0 = dist(e2);
-    y0 = dist(e2);
-    x = 640 * (x0 - xMin) / (xMax - xMin); // normalisation de x0 entre 0 et 1 puis multiplication par le max du nouveau repère
-    y = 480 * (y0 - yMin) / (yMax - yMin);
-    auto randomPoint = QPointF(x, y);
-    m_points[(int)std::round(x)+(int)std::round(y)*480] = randomPoint;
+    // x0 = dist(e2);
+    // y0 = dist(e2);
+    // x = 640 * (x0 - xMin) / (xMax - xMin); // normalisation de x0 entre 0 et 1 puis multiplication par le max du nouveau repère
+    // y = 480 * (y0 - yMin) / (yMax - yMin);
+    // auto randomPoint = QPointF(x, y);
+    //m_points[(int)std::round(x)+(int)std::round(y)*480] = randomPoint;
+    m_points[linePointToAddIndex] = QPointF(pX[linePointToAddIndex], pY[linePointToAddIndex]);
+    if (linePointToAddIndex < 456)
+        linePointToAddIndex++;
     m_nbPoints++;
     bool refreshLogs = false;
     if (timerLogs.elapsed() > animPeriod/8)
@@ -61,14 +64,15 @@ void Plot::paint(QPainter *painter)
         qDebug() << "m_nbPoints = " << m_nbPoints << " ; FPS = " << 1000/((timeStampMicro-fullLoopStartTimestamp)/1000);
     }
     fullLoopStartTimestamp = DateTime::GetCurrentTimestamp();
-    m_points[0] = randomPoint;
+    // m_points[0] = randomPoint;
 
     paintLoopStartTimestamp = DateTime::GetCurrentTimestamp();
     for(int i=0; i<std::size(m_points); i++) {
         m_points[i] += QPointF(xTrans, yTrans);
         //painter->drawPoint(m_points[i]); // 7~11 FPS
     }
-    painter->drawPoints(m_points, (int)std::size(m_points));
+    //painter->drawPoints(m_points, (int)std::size(m_points));
+    painter->drawPolyline(m_points, linePointToAddIndex);
     for(int i=0; i<std::size(m_points); i++) {
         m_points[i] -= QPointF(xTrans, yTrans);
     }
