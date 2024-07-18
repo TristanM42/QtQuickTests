@@ -25,6 +25,7 @@ qt_add_qml_module(appQtQuickTests
         CustomButton.qml
     SOURCES
         plot.h plot.cpp
+        plot_QSGRenderNode.h plot_QSGRenderNode.cpp
         src/date_utils.cpp
         src/date_utils.hpp
         src/string_utils.cpp
