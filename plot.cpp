@@ -32,6 +32,14 @@ void Plot::paint(QPainter *painter)
     std::uniform_real_distribution<> dist(0, myMax);
     float step = dist(e2);
 
+    QPixmap pixmap(640, 480);
+    pixmap.fill(Qt::black);
+    // create painter that will draw the plot
+    QPainter pixmapPainter(&pixmap);
+    //pixmapPainter.setRenderHint(QPainter::Antialiasing);
+    QColor curveColor = QColor().fromRgb(qRgb(61,248,138));
+    pixmapPainter.setPen(QPen(curveColor, 1.0));
+
     // Add animation to points to test if performance is worse when a lot of points are updated
     float animPeriod = 4000.0;
     float animRadius = 50;
@@ -72,7 +80,7 @@ void Plot::paint(QPainter *painter)
         //painter->drawPoint(m_points[i]); // 7~11 FPS
     }
     //painter->drawPoints(m_points, (int)std::size(m_points));
-    painter->drawPolyline(m_points, linePointToAddIndex);
+    pixmapPainter.drawPolyline(m_points, linePointToAddIndex);
     for(int i=0; i<std::size(m_points); i++) {
         m_points[i] -= QPointF(xTrans, yTrans);
     }
@@ -81,6 +89,13 @@ void Plot::paint(QPainter *painter)
         timeStampMicro = DateTime::GetCurrentTimestamp();
         qDebug() << "FPS paint loop = " << 1000/((timeStampMicro-paintLoopStartTimestamp)/1000);
     }
+
+    // stop painting
+    pixmapPainter.end();
+    // convert pixmap into an image
+    QImage plotImage = pixmap.toImage();
+    // draw the resulted image
+    painter->drawImage(0.0, 0.0, plotImage);
 
     return;
 }
