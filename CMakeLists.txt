@@ -31,6 +31,14 @@ qt_add_qml_module(appQtQuickTests
 SOURCES dialog.h dialog.cpp
 )
 
+# add resources (images, videos, files)
+qt_add_resources(appQtQuickTests "resources"
+    PREFIX "/"
+    FILES
+        resources/vector_state_name_freeze.png
+        resources/vector_6_state_name_ok.png
+)
+
 set_target_properties(appQtQuickTests PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}

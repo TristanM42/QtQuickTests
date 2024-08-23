@@ -12,18 +12,32 @@ ApplicationWindow {
         count: view.count
         currentIndex: view.currentIndex
     }
-    footer: RowLayout {
+    footer: RowLayout {        
         CustomButton {
             Layout.fillWidth: true
             Layout.minimumWidth: 150
             Layout.preferredHeight: 50
-
-            totalStep : 2
-            state1Text: "Start"
-            state2Text: "Stop"
-            state1BGColor: "green"
-            state2BGColor: "red"
+        
+            statesDict: {
+                "state1":
+                {
+                    "stateText": "FREEZE",
+                    "stateBGColor": "#07BE8E",
+                    "stateTextColor": "#191B25",
+                    "stateImagePath": "/resources/vector_state_name_freeze.png"
+                },
+                "state2":
+                {
+                    "stateText": "OK",
+                    "stateBGColor": "#07BE8E",
+                    "stateTextColor": "#191B25",
+                    "stateImagePath": "/resources/vector_6_state_name_ok.png"
+                }
+            }
+            pixelSize: 16
+            padding: 5
         }
+        
         Button {
             Layout.fillWidth: true
             Layout.minimumWidth: 150
