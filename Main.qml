@@ -25,17 +25,11 @@ ApplicationWindow {
                     "stateBGColor": "#07BE8E",
                     "stateTextColor": "#191B25",
                     "stateImagePath": "/resources/vector_state_name_freeze.png"
-                },
-                "state2":
-                {
-                    "stateText": "OK",
-                    "stateBGColor": "#07BE8E",
-                    "stateTextColor": "#191B25",
-                    "stateImagePath": "/resources/vector_6_state_name_ok.png"
                 }
             }
             pixelSize: 16
             padding: 5
+            imageSizeAuto: false
         }
         
         Button {

@@ -4,7 +4,7 @@ import QtQuick.Layouts
 
 Rectangle {
     id: customButton
-    
+
     // Public
 
     height: 50
@@ -27,12 +27,12 @@ Rectangle {
     property bool disableDefaultPadding: false // if you need to fill button with image containing padding for example, or for small characters
     property var textAlignment: null
     property bool disabled: false
-    
+
     // Private
-    
+
     property int step : 1
     color: "transparent"
-    property int yRef: 0 // fix button running away if clicked many times quickly    
+    property int yRef: 0 // fix button running away if clicked many times quickly
     property color backgroundColor: "#07be8e"
     property color currentTextColor
     property string currentStateImagePath
@@ -56,7 +56,7 @@ Rectangle {
 
     Component.onCompleted: {
         totalStep = Object.keys(statesDict).length;
-    
+
         // Set state implicitly from given step
         for (var i=1; i<=totalStep; i++)
         {
@@ -76,8 +76,8 @@ Rectangle {
             myStatesChanged();
         }
         customButton.state = intToObjState[initStep];
-        
-        // Set enabled states 
+
+        // Set enabled states
         var enabledStatesProvided = (enabledStatesMask.length != 0);
         enabledStates.push(undefined); // index 0 is not used but needed so that index is the same : "state1" and enabledStates[1]
         for (i=0; i<totalStep; i++)
@@ -119,20 +119,15 @@ Rectangle {
         }
     }
 
-    Button {
-        id: button
-        text: qsTr("A custom button")
-        font.pixelSize: parent.pixelSize
-        font.family: "Arial"
-        font.weight: parent.fontWeight
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        height: parent.height
+    MouseArea {
+        width: button.width + 2*25
+        height: parent.height + 2*25
+        anchors.centerIn: parent
+        z: 1
 
         onClicked : {
             if (disabled) return;
-            
+
             // workaround to enable animation after anchors.centerIn
             if (customButton.anchors.centerIn !== null)
             {
@@ -141,7 +136,7 @@ Rectangle {
                 if (customButton.yRef == 0) customButton.yRef = customButton.y;
                 customButton.anchors.centerIn = undefined;
             }
-        
+
             customButton.step++;
             if (customButton.step > customButton.totalStep)
                 customButton.step = 1;
@@ -172,8 +167,24 @@ Rectangle {
                     }
                 }
             }
-            customStateChanged(customButton.state);
+            customStateChanged(customButton.state === "state1B" ? customButton.intToObjState[customButton.initStep] : customButton.state);
+            //console.log("Timeout reached!"), customButton.animationDelay*2);
+            var timer = Qt.createQmlObject('import QtQuick 2.0; Timer { interval: ' + customButton.animationDelay*2 + '; repeat: false; }', parent);
+            timer.triggered.connect(() => console.log("Timeout reached!"));
+            timer.start();
         }
+    }
+
+    Button {
+        id: button
+        text: qsTr("A custom button")
+        font.pixelSize: parent.pixelSize
+        font.family: "Arial"
+        font.weight: parent.fontWeight
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        height: parent.height
 
         background: Rectangle {
             id: colorRect
@@ -230,7 +241,7 @@ Rectangle {
                 }
             }
     }
-    
+
     Component {
         id: stateTemplateComponent
         State {
