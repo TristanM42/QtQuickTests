@@ -27,6 +27,7 @@ qt_add_qml_module(appQtQuickTests
         PaneToolBarPage.qml
         SplitViewPage.qml
         CustomButton.qml
+        RowWithEvenSpacing.qml
     QML_FILES SomePage.qml
 SOURCES dialog.h dialog.cpp
 )
